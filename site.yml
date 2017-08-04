@@ -1,0 +1,14 @@
+---
+- name: Provision Racktables
+  hosts: "{{ env_site }}-racktables"
+  remote_user: ansible
+  become: true
+
+  roles: 
+      - mariadb-server 
+      - racktables
+  
+  environment:
+     http_proxy: "http://192.168.0.20:8080" 
+     https_proxy: "http://192.168.0.20:8080"
+     no_proxy: "127.0.0.1, localhost" 

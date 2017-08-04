@@ -1,0 +1,24 @@
+- name: Create backup directory
+  file: path=/bancos/backup/ state=directory 
+  when: mysql_backup_enabled
+  tags:
+    - mysql-backup
+
+- name: Get Databases
+  shell: 'mysql -u root -e "show databases;" '
+  register: dblist
+  changed_when: False
+  tags:
+    - mysql-backup
+
+- name: backup databases
+  mysql_db:
+    state: dump
+    name: "{{ item }}"
+    target: "/bancos/backup/{{ item }}__{{ ansible_date_time.date }}.sql"
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+  with_items: "{{ dblist.stdout_lines | difference(exclude_db) }}"
+  when: mysql_backup_enabled
+  tags:
+    - mysql-backup

@@ -1,0 +1,11 @@
+---
+##
+
+## Mysql
+mariadb_root_password: "{{ vault_mariadb_root_password }}" 
+mysql_root_password: "{{ vault_mysql_root_pass }}" 
+racktables_user_password: "{{ vault_racktables_user_password }}"
+mysql_datadir: /bancos/mysql 
+mysql_port: 3306
+
+
